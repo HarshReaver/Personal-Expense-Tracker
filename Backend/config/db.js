@@ -2,12 +2,19 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 dotenv.config();
 export const connectDB = async () => {
-    const MongoDB_URI = process.env.MongoDB_URI || 'mongodb+srv://new-user:ansh123@cluster3.janbnkb.mongodb.net/?retryWrites=true&w=majority&appName=Cluster3';
-	try {
-		const conn = await mongoose.connect(MongoDB_URI);
-		console.log(`MongoDB Connected: ${conn.connection.host}`);
-	} catch (error) {
-		console.error(`Error: ${error.message}`);
-		process.exit(1); 
-	}
+  const MongoDB_URI =
+    process.env.MongoDB_URI || "mongodb://localhost:27017/expense_tracker";
+  try {
+    await mongoose.connect(MongoDB_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    console.log("MongoDB Connected Successfully");
+  } catch (error) {
+    console.error("MongoDB Connection Error:", error.message);
+    console.log(
+      "Please check your MongoDB connection string and make sure MongoDB is running"
+    );
+    process.exit(1);
+  }
 };

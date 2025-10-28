@@ -19,12 +19,22 @@ export default function Home() {
   const [expenses, setExpenses] = useState<Expense[]>([])
   const [activeView, setActiveView] = useState<"dashboard" | "add" | "list">("dashboard")
 
-  // Load expenses from localStorage on mount
+  // Fetch expenses from backend API
   useEffect(() => {
-    const savedExpenses = localStorage.getItem("expenses")
-    if (savedExpenses) {
-      setExpenses(JSON.parse(savedExpenses))
+    const fetchExpenses = async () => {
+      try {
+        const response = await fetch('http://localhost:3000/api/expenses')
+        if (!response.ok) {
+          throw new Error('Failed to fetch expenses')
+        }
+        const { data } = await response.json()
+        setExpenses(data)
+      } catch (error) {
+        console.error('Error fetching expenses:', error)
+      }
     }
+
+    fetchExpenses()
   }, [])
 
   // Save expenses to localStorage whenever expenses change
@@ -32,16 +42,41 @@ export default function Home() {
     localStorage.setItem("expenses", JSON.stringify(expenses))
   }, [expenses])
 
-  const addExpense = (expense: Omit<Expense, "id">) => {
-    const newExpense: Expense = {
-      ...expense,
-      id: Date.now().toString(),
+  const addExpense = async (expense: Omit<Expense, "id">) => {
+    try {
+      const response = await fetch('http://localhost:3000/api/expenses', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(expense),
+      })
+      
+      if (!response.ok) {
+        throw new Error('Failed to add expense')
+      }
+      
+      const newExpense = await response.json()
+      setExpenses((prev) => [newExpense, ...prev])
+    } catch (error) {
+      console.error('Error adding expense:', error)
     }
-    setExpenses((prev) => [newExpense, ...prev])
   }
 
-  const deleteExpense = (id: string) => {
-    setExpenses((prev) => prev.filter((expense) => expense.id !== id))
+  const deleteExpense = async (id: string) => {
+    try {
+      const response = await fetch(`http://localhost:3000/api/expenses/${id}`, {
+        method: 'DELETE',
+      })
+      
+      if (!response.ok) {
+        throw new Error('Failed to delete expense')
+      }
+      
+      setExpenses((prev) => prev.filter((expense) => expense.id !== id))
+    } catch (error) {
+      console.error('Error deleting expense:', error)
+    }
   }
 
   const renderContent = () => {
