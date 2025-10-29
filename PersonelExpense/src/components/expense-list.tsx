@@ -33,7 +33,6 @@ export function ExpenseList({ expenses: initialExpenses, onDeleteExpense }: Expe
             'Content-Type': 'application/json',
           },
         })
-
         const data = await response.json()
 
         if (!response.ok) {
