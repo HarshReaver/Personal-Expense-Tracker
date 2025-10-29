@@ -34,28 +34,41 @@ A full-stack web application for tracking personal expenses with a modern React 
 ## 📦 Project Structure
 
 ```
-├── Backend/                 # Backend server code
-│   ├── config/             # Configuration files
-│   │   └── db.js          # Database connection setup
-│   ├── controller/         # Request handlers
+├── Backend/                          # Backend server code
+│   ├── config/                        # Configuration files
+│   │   └── db.js                      # Database connection setup
+│   ├── controller/                    # Request handlers
 │   │   └── expenseController.js
-│   ├── routes/            # API routes
+│   ├── routes/                        # API routes
 │   │   └── routes.js
-│   ├── package.json       # Backend dependencies
-│   └── server.js         # Express server setup
+│   ├── .env                           # Environment variables
+│   ├── package.json                   # Backend dependencies
+│   ├── package-lock.json              # Backend lockfile
+│   └── server.js                      # Express server setup
 │
-├── PersonelExpense/        # Frontend React application
+├── PersonelExpense/                   # Frontend React (Vite) application
+│   ├── node_modules/
+│   ├── public/
+│   │   └── vite.svg
 │   ├── src/
-│   │   ├── components/    # React components
-│   │   │   ├── ui/       # Reusable UI components
+│   │   ├── assets/
+│   │   │   └── react.svg
+│   │   ├── components/                # React components
+│   │   │   ├── ui/                    # Reusable UI components
 │   │   │   ├── add-expense-form.tsx
 │   │   │   ├── dashboard-layout.tsx
 │   │   │   ├── expense-dashboard.tsx
 │   │   │   └── expense-list.tsx
-│   │   ├── lib/          # Utility functions
-│   │   ├── main.tsx      # Application entry point
-│   │   └── page.tsx      # Main page component
-│   └── package.json      # Frontend dependencies
+│   │   ├── lib/                       # Utility functions
+│   │   ├── main.tsx                   # Application entry point
+│   │   └── page.tsx                   # Main page component
+│   ├── index.html
+│   ├── components.json
+│   ├── package.json                   # Frontend dependencies
+│   └── package-lock.json              # Frontend lockfile
+│
+├── .gitignore
+└── README.md
 ```
 
 ## 🚀 Getting Started
