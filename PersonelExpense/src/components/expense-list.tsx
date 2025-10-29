@@ -40,7 +40,15 @@ export function ExpenseList({ expenses: initialExpenses, onDeleteExpense }: Expe
         }
 
         // Map backend data to Expense type
-        const fetchedExpenses: Expense[] = data.data.map((item: any) => ({
+        interface BackendExpense {
+          _id: string
+          title: string
+          amount: number
+          category: string
+          date: string
+          description?: string
+        }
+        const fetchedExpenses: Expense[] = data.data.map((item: BackendExpense) => ({
           id: item._id,
           title: item.title,
           amount: item.amount,
@@ -50,9 +58,9 @@ export function ExpenseList({ expenses: initialExpenses, onDeleteExpense }: Expe
         }))
 
         setExpenses(fetchedExpenses)
-      } catch (error: any) {
+      } catch (error: unknown) {
         console.error('Error fetching expenses:', error)
-        setError(error.message || 'Failed to fetch expenses')
+        setError(error instanceof Error ? error.message : 'Failed to fetch expenses')
       } finally {
         setIsLoading(false)
       }
@@ -78,9 +86,9 @@ export function ExpenseList({ expenses: initialExpenses, onDeleteExpense }: Expe
       // Remove the deleted expense from state
       setExpenses((prev) => prev.filter((expense) => expense.id !== id))
       onDeleteExpense(id)
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Error deleting expense:', error)
-      setError(error.message || 'Failed to delete expense')
+      setError(error instanceof Error ? error.message : 'Failed to delete expense')
     }
   }
 
